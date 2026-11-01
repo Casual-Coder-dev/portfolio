@@ -2,6 +2,7 @@
   var d=document,$=function(s,r){return [].slice.call((r||d).querySelectorAll(s))};
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var lite=matchMedia('(hover:none), (max-width:700px)').matches; /* phones/tablets: reveal once, no play-back */
   d.getElementById('y').textContent=new Date().getFullYear();
 
   /* header: progress bar, shrink on scroll, nav indicator, mobile menu */
@@ -252,7 +253,8 @@
     if(e.isIntersecting){
       el.classList.remove('out');el.classList.add('in');
       if(!reduce&&el.matches('.stats dl')&&!el.dataset.c){el.dataset.c=1;count(el.querySelector('dt'))}
-    }else if(el.classList.contains('in')){
+      if(lite)io.unobserve(el);
+    }else if(!lite&&el.classList.contains('in')){
       el.classList.remove('in');el.classList.add('out');
     }
   })},{threshold:0,rootMargin:'0px 0px -6% 0px'});
