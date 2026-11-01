@@ -258,7 +258,9 @@
       el.classList.remove('in');el.classList.add('out');
     }
   })},{threshold:0,rootMargin:'0px 0px -6% 0px'});
-  $('.rv').forEach(function(el){io.observe(el)});
+  $('.rv').forEach(function(el){io.observe(el);
+    if(lite)el.addEventListener('animationend',function(e){if(e.target===el)el.classList.add('done')});
+  });
 
   function count(dt){
     var m=/^(\d+(?:\.\d+)?)(.*)$/.exec(dt.textContent);if(!m)return;
